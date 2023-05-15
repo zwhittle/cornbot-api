@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Feedbacks {
+  id          Int      @id @default(autoincrement())
+  submitterId String?
+  comment     String?
+  guildId     String?
+  channelId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Guilds {
+  id               String    @id
+  name             String?
+  description      String?
+  joinedAt         DateTime?
+  discordCreatedAt DateTime?
+  memberCount      Int       @default(0)
+  cornScore        Int       @default(0)
+  goodBotCount     Int       @default(0)
+  badBotCount      Int       @default(0)
+  icon             String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model Members {
+  id              String    @id
+  name            String?
+  avatar          String?
+  displayHexColor String?
+  displayName     String?
+  nickname        String?
+  pending         Boolean?  @default(false)
+  premiumSince    DateTime?
+  guildId         String?
+  pronouns        String?
+  birthdayMonth   Int?
+  birthdayDay     Int?
+  birthdayPublic  Boolean?  @default(true)
+  joinedAt        DateTime?
+  corns           Int?      @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model UserReports {
+  id             Int      @id @default(autoincrement())
+  reportedUserId String?
+  reason         String?
+  reportedById   String?
+  guildId        String?
+  channelId      String?
+  userSubmitted  Boolean?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
