@@ -1,7 +1,7 @@
 import express from 'express'
 import routes from './routes'
 
-const PORT = 4000
+const PORT = process.env.PORT ?? 4000
 const app = express()
 
 app.use(express.json())
