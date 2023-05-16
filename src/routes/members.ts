@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
     //   res.status(409)
     //   res.json({ error: 'Member Already Exists' })
     // } else {
-      console.error(e, typeof e)
+      console.error(typeof e)
       res.json({ error: e })
     // }
   }
