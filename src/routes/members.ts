@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { Router } from 'express'
 
 const prisma = new PrismaClient()
@@ -48,10 +49,14 @@ router.post('/', async (req, res) => {
     })
 
     res.json(newMember)
-  } catch (error) {
-    console.error(error)
-    res.status(409)
-    res.json({ error: error })
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      res.status(409)
+      res.json({ error: 'Member Already Exists' })
+    } else {
+      console.error(e)
+      res.json({ error: e })
+    }
   }
 })
 
