@@ -50,13 +50,13 @@ router.post('/', async (req, res) => {
 
     res.json(newMember)
   } catch (e) {
-    if (e instanceof PrismaClientKnownRequestError) {
-      res.status(409)
-      res.json({ error: 'Member Already Exists' })
-    } else {
-      console.error(e)
+    // if (e instanceof PrismaClientKnownRequestError) {
+    //   res.status(409)
+    //   res.json({ error: 'Member Already Exists' })
+    // } else {
+      console.error(e, typeof e)
       res.json({ error: e })
-    }
+    // }
   }
 })
 
