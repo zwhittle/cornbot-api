@@ -49,6 +49,7 @@ router.post('/', async (req, res) => {
 
     res.json(newMember)
   } catch (error) {
+    console.error(error)
     res.status(409)
     res.json({ error: error })
   }
@@ -97,6 +98,7 @@ router.put('/:id', async (req, res) => {
     })
     res.json(updatedMember)
   } catch (error) {
+    console.error(error)
     res.status(404)
     res.json({ error: error })
   }

@@ -50,6 +50,7 @@ router.post('/', async (req, res) => {
 
     res.json(newGuild)
   } catch (error) {
+    console.error(error)
     res.status(409)
     res.json({ error: `Guild Already Exists: ${id}` })
   }
@@ -89,6 +90,7 @@ router.put('/:id', async (req, res) => {
 
     res.json(guild)
   } catch (error) {
+    console.error(error)
     res.status(404)
     res.json({ error: `Guild Does Not Exist: ${id}` })
   }
