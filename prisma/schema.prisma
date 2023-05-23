@@ -10,6 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AnalyticsEvent {
+  id        Int      @id @default(autoincrement())
+  type      String
+  event     String
+  timestamp DateTime @default(now())
+  guildId   String?
+  channelId String?
+  memberId  String?
+}
+
 model Feedbacks {
   id          Int      @id @default(autoincrement())
   submitterId String?
