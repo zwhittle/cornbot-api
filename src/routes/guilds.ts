@@ -17,6 +17,12 @@ router.get('/:id', async (req, res) => {
   res.json(guild)
 })
 
+router.get('/:id/members', async (req, res) => {
+  console.log(`${req.method}: ${req.url}`)
+  const members = await prisma.members.findMany({ where: { guildId: req.params.id } })
+  res.json(members)
+})
+
 router.post('/', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const {
