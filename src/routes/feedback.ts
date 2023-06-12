@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   console.log(`${req.method}: ${req.path}`)
-  const feedbacks = await prisma.feedbacks.findMany()
+  const feedbacks = await prisma.feedbackItem.findMany()
   res.json(feedbacks)
 })
 
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
   const { submitterId, comment, guildId, channelId } = req.body
 
   try {
-    const newFeedback = await prisma.feedbacks.create({
+    const newFeedback = await prisma.feedbackItem.create({
       data: {
         submitterId: submitterId,
         comment: comment,
@@ -36,7 +36,7 @@ router.put('/:id', async (req, res) => {
   const { submitterId, comment, guildId, channelId } = req.body
 
   try {
-    const updatedFeedback = await prisma.feedbacks.update({
+    const updatedFeedback = await prisma.feedbackItem.update({
       where: { id: Number(id) },
       data: {
         submitterId: submitterId,
@@ -55,7 +55,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const { id } = req.params
-  const deletedFeedback = await prisma.feedbacks.delete({
+  const deletedFeedback = await prisma.feedbackItem.delete({
     where: { id: Number(id) },
   })
 
