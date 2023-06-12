@@ -71,7 +71,6 @@ router.put('/:id', async (req, res) => {
     pronouns,
     birthdayMonth,
     birthdayDay,
-    birthdayPublic,
     corns,
   } = req.body
 
