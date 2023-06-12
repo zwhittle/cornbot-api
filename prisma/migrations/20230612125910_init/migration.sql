@@ -12,7 +12,7 @@ CREATE TABLE "AnalyticsEvent" (
 );
 
 -- CreateTable
-CREATE TABLE "Feedback" (
+CREATE TABLE "FeedbackItem" (
     "id" SERIAL NOT NULL,
     "submitterId" TEXT,
     "comment" TEXT,
@@ -21,7 +21,7 @@ CREATE TABLE "Feedback" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Feedback_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "FeedbackItem_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -86,10 +86,10 @@ ALTER TABLE "AnalyticsEvent" ADD CONSTRAINT "AnalyticsEvent_guildId_fkey" FOREIG
 ALTER TABLE "AnalyticsEvent" ADD CONSTRAINT "AnalyticsEvent_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Member"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Feedback" ADD CONSTRAINT "Feedback_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES "Member"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "FeedbackItem" ADD CONSTRAINT "FeedbackItem_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES "Member"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Feedback" ADD CONSTRAINT "Feedback_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "FeedbackItem" ADD CONSTRAINT "FeedbackItem_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Member" ADD CONSTRAINT "Member_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE SET NULL ON UPDATE CASCADE;

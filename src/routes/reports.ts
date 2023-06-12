@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
-  const reports = await prisma.userReports.findMany()
+  const reports = await prisma.userReport.findMany()
   res.json(reports)
 })
 
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
   const { reportedUserId, reason, reportedById, guildId, channelId, userSubmitted } = req.body
 
   try {
-    const newReport = await prisma.userReports.create({
+    const newReport = await prisma.userReport.create({
       data: {
         reportedUserId: reportedUserId,
         reason: reason,
@@ -38,7 +38,7 @@ router.put('/:id', async (req, res) => {
   const { reportedUserId, reason, reportedById, guildId, channelId, userSubmitted } = req.body
 
   try {
-    const updatedReport = await prisma.userReports.update({
+    const updatedReport = await prisma.userReport.update({
       where: { id: Number(id) },
       data: {
         reportedUserId: reportedUserId,
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const { id } = req.params
-  const deletedReport = await prisma.userReports.delete({
+  const deletedReport = await prisma.userReport.delete({
     where: { id: Number(id) },
   })
 

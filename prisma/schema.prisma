@@ -22,7 +22,7 @@ model AnalyticsEvent {
   member    Member?  @relation(fields: [memberId], references: [id])
 }
 
-model Feedback {
+model FeedbackItem {
   id          Int      @id @default(autoincrement())
   submitterId String?
   submitter   Member?  @relation(fields: [submitterId], references: [id])
@@ -50,7 +50,7 @@ model Guild {
   events           AnalyticsEvent[]
   members          Member[]
   reports          UserReport[]
-  feedback         Feedback[]
+  feedback         FeedbackItem[]
 }
 
 model Member {
@@ -72,7 +72,7 @@ model Member {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   events          AnalyticsEvent[]
-  feedback        Feedback[]
+  feedback        FeedbackItem[]
 }
 
 model UserReport {
