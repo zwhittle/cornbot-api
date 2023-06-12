@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { id } from 'date-fns/locale'
 import { Router } from 'express'
 
 const prisma = new PrismaClient()
@@ -21,6 +20,12 @@ router.get('/:id/members', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const members = await prisma.members.findMany({ where: { guildId: req.params.id } })
   res.json(members)
+})
+
+router.get('/:id/events', async (req, res) => {
+  console.log(`${req.method}: ${req.url}`)
+  const events = await prisma.analyticsEvent.findMany({ where: { guildId: req.params.id } })
+  res.json(events)
 })
 
 router.post('/', async (req, res) => {
