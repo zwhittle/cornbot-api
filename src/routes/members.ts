@@ -6,13 +6,13 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
-  const members = await prisma.members.findMany()
+  const members = await prisma.member.findMany()
   res.json(members)
 })
 
 router.get('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
-  const member = await prisma.members.findFirst({ where: { id: req.params.id } })
+  const member = await prisma.member.findFirst({ where: { id: req.params.id } })
   res.json(member)
 })
 
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
   } = req.body
 
   try {
-    const newMember = await prisma.members.create({
+    const newMember = await prisma.member.create({
       data: {
         id: id,
         name: name,
@@ -76,7 +76,7 @@ router.put('/:id', async (req, res) => {
   } = req.body
 
   try {
-    const updatedMember = await prisma.members.update({
+    const updatedMember = await prisma.member.update({
       where: { id: id },
       data: {
         name: name,
@@ -91,7 +91,6 @@ router.put('/:id', async (req, res) => {
         pronouns: pronouns,
         birthdayMonth: birthdayMonth,
         birthdayDay: birthdayDay,
-        birthdayPublic: birthdayPublic,
         corns,
       },
     })
@@ -105,7 +104,7 @@ router.put('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const { id } = req.params
-  const updatedMember = await prisma.members.update({ where: { id: id }, data: req.body })
+  const updatedMember = await prisma.member.update({ where: { id: id }, data: req.body })
 
   res.json(updatedMember)
 })
@@ -113,7 +112,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
   const { id } = req.params
-  const deletedMember = await prisma.members.delete({
+  const deletedMember = await prisma.member.delete({
     where: { id: id },
   })
 

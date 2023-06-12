@@ -16,61 +16,72 @@ model AnalyticsEvent {
   event     String
   timestamp DateTime @default(now())
   guildId   String?
+  guild     Guild?   @relation(fields: [guildId], references: [id])
   channelId String?
   memberId  String?
+  member    Member?  @relation(fields: [memberId], references: [id])
 }
 
-model Feedbacks {
+model Feedback {
   id          Int      @id @default(autoincrement())
   submitterId String?
+  submitter   Member?  @relation(fields: [submitterId], references: [id])
   comment     String?
   guildId     String?
+  guild       Guild?   @relation(fields: [guildId], references: [id])
   channelId   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-model Guilds {
-  id               String    @id
+model Guild {
+  id               String           @id
   name             String?
   description      String?
   joinedAt         DateTime?
   discordCreatedAt DateTime?
-  memberCount      Int       @default(0)
-  cornScore        Int       @default(0)
-  goodBotCount     Int       @default(0)
-  badBotCount      Int       @default(0)
+  memberCount      Int              @default(0)
+  cornScore        Int              @default(0)
+  goodBotCount     Int              @default(0)
+  badBotCount      Int              @default(0)
   icon             String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  events           AnalyticsEvent[]
+  members          Member[]
+  reports          UserReport[]
+  feedback         Feedback[]
 }
 
-model Members {
-  id              String    @id
+model Member {
+  id              String           @id
   name            String?
   avatar          String?
   displayHexColor String?
   displayName     String?
   nickname        String?
-  pending         Boolean?  @default(false)
+  pending         Boolean?         @default(false)
   premiumSince    DateTime?
   guildId         String?
+  guild           Guild?           @relation(fields: [guildId], references: [id])
   pronouns        String?
   birthdayMonth   Int?
   birthdayDay     Int?
-  birthdayPublic  Boolean?  @default(true)
   joinedAt        DateTime?
-  corns           Int?      @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  corns           Int?             @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  events          AnalyticsEvent[]
+  feedback        Feedback[]
 }
 
-model UserReports {
+model UserReport {
   id             Int      @id @default(autoincrement())
   reportedUserId String?
   reason         String?
   reportedById   String?
   guildId        String?
+  guild          Guild?   @relation(fields: [guildId], references: [id])
   channelId      String?
   userSubmitted  Boolean?
   createdAt      DateTime @default(now())
