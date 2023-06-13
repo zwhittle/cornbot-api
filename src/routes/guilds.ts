@@ -24,11 +24,21 @@ router.get('/:id/members', async (req, res) => {
 
 router.get('/:id/events', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
+  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize as string) : 20
+  const page = req.query.page ? parseInt(req.query.page as string) : 0
   const events = await prisma.analyticsEvent.findMany({
     where: { guildId: req.params.id },
     include: { member: true, guild: true },
+    skip: pageSize * page,
+    take: pageSize,
   })
-  res.json(events)
+  res.json({
+    page: page,
+    pageSize: pageSize,
+    pageCount: Math.ceil(events.length / pageSize),
+    recordCount: events.length,
+    data: events,
+  })
 })
 
 router.post('/', async (req, res) => {
