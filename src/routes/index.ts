@@ -4,6 +4,7 @@ import members from './members'
 import feedbacks from './feedback'
 import reports from './reports'
 import analytics from './analytics'
+import messages from './messages'
 
 /**
  * All top-level routes should be applied to the router here.
@@ -18,5 +19,6 @@ router.use('/members', members)
 router.use('/feedbacks', feedbacks)
 router.use('/reports', reports)
 router.use('/analytics', analytics)
+router.use('/messages', messages)
 
 export default router

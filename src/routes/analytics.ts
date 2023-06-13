@@ -6,20 +6,26 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   console.log(`${req.method}: ${req.originalUrl}`)
-  const events = await prisma.analyticsEvent.findMany()
-  res.json(events)
-})
+  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize as string) : 20
+  const page = req.query.page ? parseInt(req.query.page as string) : 1
 
-router.get('/:eventId', async (req, res) => {
-  console.log(`${req.method}: ${req.originalUrl}`)
-  const { eventId } = req.params
-  const events = await prisma.analyticsEvent.findMany({ where: { guildId: eventId } })
-  res.json(events)
+  const events = await prisma.analyticsEvent.findMany({
+    include: { member: true, guild: true, message: true },
+    skip: pageSize * (page - 1),
+    take: pageSize,
+  })
+  res.json({
+    page: page,
+    pageSize: pageSize,
+    pageCount: Math.ceil(events.length / pageSize),
+    recordCount: events.length,
+    data: events,
+  })
 })
 
 router.post('/', async (req, res) => {
   console.log(`${req.method}: ${req.originalUrl}`)
-  const { type, event, guildId, channelId, memberId } = req.body
+  const { type, event, guildId, channelId, memberId, messageId } = req.body
   console.log(req.body)
 
   try {
@@ -30,6 +36,7 @@ router.post('/', async (req, res) => {
         guildId: guildId,
         channelId: channelId,
         memberId: memberId,
+        messageId: messageId,
       },
     })
     console.log(newEvent)
@@ -43,7 +50,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   console.log(`${req.method}: ${req.originalUrl}`)
   const { id } = req.params
-  const { type, guildId, channelId, memberId } = req.body
+  const { type, guildId, channelId, memberId, messageId } = req.body
 
   try {
     const updatedEvent = await prisma.analyticsEvent.update({
@@ -53,6 +60,7 @@ router.put('/:id', async (req, res) => {
         guildId: guildId,
         channelId: channelId,
         memberId: memberId,
+        messageId: messageId,
       },
     })
 
