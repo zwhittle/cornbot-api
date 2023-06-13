@@ -24,7 +24,10 @@ router.get('/:id/members', async (req, res) => {
 
 router.get('/:id/events', async (req, res) => {
   console.log(`${req.method}: ${req.url}`)
-  const events = await prisma.analyticsEvent.findMany({ where: { guildId: req.params.id } })
+  const events = await prisma.analyticsEvent.findMany({
+    where: { guildId: req.params.id },
+    include: { member: true, guild: true },
+  })
   res.json(events)
 })
 
