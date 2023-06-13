@@ -20,6 +20,8 @@ model AnalyticsEvent {
   channelId String?
   memberId  String?
   member    Member?  @relation(fields: [memberId], references: [id])
+  messageId String?  @unique
+  message   Message? @relation(fields: [messageId], references: [id])
 }
 
 model FeedbackItem {
@@ -51,6 +53,7 @@ model Guild {
   members          Member[]
   reports          UserReport[]
   feedback         FeedbackItem[]
+  messages         Message[]
 }
 
 model Member {
@@ -73,6 +76,21 @@ model Member {
   updatedAt       DateTime         @updatedAt
   events          AnalyticsEvent[]
   feedback        FeedbackItem[]
+  messages        Message[]
+}
+
+model Message {
+  id               String          @id
+  authorId         String
+  author           Member          @relation(fields: [authorId], references: [id])
+  guildId          String
+  guild            Guild           @relation(fields: [guildId], references: [id])
+  channelId        String
+  content          String
+  discordCreatedAt DateTime
+  editable         Boolean
+  url              String
+  analyticsEvent   AnalyticsEvent?
 }
 
 model UserReport {
